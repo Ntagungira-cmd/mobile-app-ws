@@ -1,39 +1,47 @@
 package com.ntagungira.app.ws.io.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-@Entity(name="users")
+import com.ntagungira.app.ws.shared.dto.AddressDTO;
+
+@Entity(name = "users")
 public class UserEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;   
-	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String userId;
-	
-	@Column(nullable=false, length=50)
+
+	@Column(nullable = false, length = 50)
 	private String firstName;
-	
-	@Column(nullable=false, length=50)
+
+	@Column(nullable = false, length = 50)
 	private String lastName;
-	
-	@Column(nullable=false, length=150)
+
+	@Column(nullable = false, length = 150)
 	private String email;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String encryptedPassword;
-	
+
 	private String emailVerificationToken;
-	
-	@Column(nullable=false)
-	private Boolean emailVerificationStatus=false;
+
+	@Column(nullable = false)
+	private Boolean emailVerificationStatus = false;
+
+//	@OneToMany(mappedBy="userDetails", cascade=CascadeType.ALL)
+//	private List<AddressDTO> addresses;
 
 	public long getId() {
 		return id;
@@ -99,14 +107,12 @@ public class UserEntity implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
+//	public List<AddressDTO> getAddresses() {
+//		return addresses;
+//	}
+//
+//	public void setAddresses(List<AddressDTO> addresses) {
+//		this.addresses = addresses;
+//	}
+
 }
-
-
-
-
-
-
-
-
-
-

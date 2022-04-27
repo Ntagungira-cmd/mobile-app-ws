@@ -13,36 +13,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ntagungira.app.ws.sevice.UserService;
 import com.ntagungira.app.ws.shared.dto.UserDto;
 import com.ntagungira.app.ws.ui.model.request.UserDetailsRequestModel;
-import com.ntagungira.app.ws.ui.model.response.UserRest;
+import com.ntagungira.app.ws.ui.model.response.UserResp;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
-	@GetMapping
+
+	@GetMapping("/me")
 	public String getUser() {
 		return "getUser was called";
 	}
-	
-	@PostMapping
-	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
-		UserRest returnVal=new UserRest();
-		UserDto userDto=new UserDto();
+
+	@PostMapping("/register")
+	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) {
+		UserResp returnVal = new UserResp();
+		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userDetails, userDto);
-		UserDto createdUser=userService.createUser(userDto);
-		BeanUtils.copyProperties(createdUser,returnVal);
+		UserDto createdUser = userService.createUser(userDto);
+		BeanUtils.copyProperties(createdUser, returnVal);
 		return returnVal;
 	}
-	
-	@PutMapping
+
+	@PutMapping("/update")
 	public String updateUser() {
 		return "updateUser was called";
 	}
-	
-	@DeleteMapping
+
+	@DeleteMapping("/delete")
 	public String deleteUser() {
 		return "deleteUser was called";
 	}
