@@ -1,4 +1,4 @@
-package com.ntagungira.app.ws.ui.controller;
+ package com.ntagungira.app.ws.ui.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
