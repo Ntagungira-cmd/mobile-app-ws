@@ -22,12 +22,12 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/me")
+	@GetMapping
 	public String getUser() {
 		return "getUser was called";
 	}
 
-	@PostMapping("/register")
+	@PostMapping
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
@@ -37,12 +37,12 @@ public class UserController {
 		return returnVal;
 	}
 
-	@PutMapping("/update")
+	@PutMapping
 	public String updateUser() {
 		return "updateUser was called";
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping
 	public String deleteUser() {
 		return "deleteUser was called";
 	}
