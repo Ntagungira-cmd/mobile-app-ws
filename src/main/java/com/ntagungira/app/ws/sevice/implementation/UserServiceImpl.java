@@ -1,6 +1,5 @@
 package com.ntagungira.app.ws.sevice.implementation;
 
-
 import java.util.ArrayList;
 
 import org.springframework.beans.BeanUtils;
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Override
 	public UserDto createUser(UserDto user) {
 
@@ -51,16 +50,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		UserEntity userEntity=userRepository.findByEmail(email);
 		
-		if(userEntity==null)throw new UsernameNotFoundException(email);
-		
-		return new User(userEntity.getEmail(),userEntity.getEncryptedPassword(), new ArrayList<>());
+		UserEntity userEntity = userRepository.findByEmail(email);
+
+		if (userEntity == null)
+			throw new UsernameNotFoundException(email);
+
+		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
 	}
 
 	@Override
 	public UserDto getUser(String email) {
-		
+
 		UserEntity userEntity = userRepository.findByEmail(email);
 
 		if (userEntity == null)
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 		UserDto returnValue = new UserDto();
 		BeanUtils.copyProperties(userEntity, returnValue);
- 
+
 		return returnValue;
 	}
 

@@ -27,7 +27,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
-	private String contentType;
+	public String contentType;
 
 	public AuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
@@ -71,4 +71,5 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         res.addHeader("UserID", userDto.getUserId());
 
     }  
+	
 }
