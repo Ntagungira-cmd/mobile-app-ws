@@ -73,4 +73,10 @@ public class UserServiceImpl implements UserService {
 		return returnValue;
 	}
 
+	@Override
+	public UserDto getUserByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
