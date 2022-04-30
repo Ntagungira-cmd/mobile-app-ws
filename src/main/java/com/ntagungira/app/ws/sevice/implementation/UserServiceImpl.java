@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
+
 		UserEntity userEntity = userRepository.findByEmail(email);
 
 		if (userEntity == null)
@@ -75,8 +75,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getUserByUserId(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDto returnValue = new UserDto();
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		if (userEntity == null)
+			throw new UsernameNotFoundException(userId);
+		BeanUtils.copyProperties(userEntity, returnValue);
+		return returnValue;
 	}
 
 }
