@@ -23,16 +23,12 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		String header = req.getHeader(SecurityConstants.HEADER_STRING);
-		System.out.println(header);
-		if (header!= null && header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+		if (header != null && header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 			System.out.println(authentication);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			chain.doFilter(req, res);
-		}else {
-//			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-//			SecurityContextHolder.getContext().setAuthentication(authentication);
-//			System.out.println(authentication);
+		} else {
 			chain.doFilter(req, res);
 			return;
 		}
@@ -40,13 +36,13 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(SecurityConstants.HEADER_STRING);
-		//System.out.println(token);
+		// System.out.println(token);
 		if (token != null) {
 
 			token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
-			String user = Jwts.parser().setSigningKey(SecurityConstants.TOKEN_SECRET).parseClaimsJws(token).getBody()
-					.getSubject();
+			String user = Jwts.parser().setSigningKey(SecurityConstants.getTokenSecret()).parseClaimsJws(token)
+					.getBody().getSubject();
 
 			if (user != null) {
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
