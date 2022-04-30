@@ -19,9 +19,28 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 		super(authManager);
 	}
 
+	@Override
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+		String header = req.getHeader(SecurityConstants.HEADER_STRING);
+		System.out.println(header);
+		if (header!= null && header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+			System.out.println(authentication);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			chain.doFilter(req, res);
+		}else {
+//			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+//			SecurityContextHolder.getContext().setAuthentication(authentication);
+//			System.out.println(authentication);
+			chain.doFilter(req, res);
+			return;
+		}
+	}
+
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(SecurityConstants.HEADER_STRING);
-		System.out.println(token);
+		//System.out.println(token);
 		if (token != null) {
 
 			token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
@@ -37,23 +56,6 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 		}
 
 		return null;
-	}
-
-	@Override
-	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		String header = req.getHeader(SecurityConstants.HEADER_STRING);
-		System.out.println(header);
-		
-		if (header == null||!header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-			chain.doFilter(req, res);
-			return;
-		}else {
-			UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-			System.out.println(authentication);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			chain.doFilter(req, res);
-		}
 	}
 
 }
