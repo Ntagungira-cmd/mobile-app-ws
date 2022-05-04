@@ -24,7 +24,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping(path="/{id}",produces=MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(path="/{id}",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public UserResp getUser(@PathVariable String id) {
 		UserResp returnValue=new UserResp();
 		UserDto userDto = userService.getUserByUserId(id);
@@ -32,7 +32,7 @@ public class UserController {
 		return returnValue;
 	}
 
-	@PostMapping
+	@PostMapping(consumes= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
