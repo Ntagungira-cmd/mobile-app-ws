@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user) {
+	public UserDto createUser(UserDto user){
 
 		if (userRepository.findByEmail(user.getEmail()) != null)
 			throw new RuntimeException("User already exists");
