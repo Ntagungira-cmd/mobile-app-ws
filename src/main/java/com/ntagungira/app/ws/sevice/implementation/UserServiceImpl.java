@@ -10,11 +10,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ntagungira.app.ws.Exceptions.UserServiceException;
 import com.ntagungira.app.ws.io.entity.UserEntity;
 import com.ntagungira.app.ws.io.repos.UserRepository;
 import com.ntagungira.app.ws.sevice.UserService;
 import com.ntagungira.app.ws.shared.Utils;
 import com.ntagungira.app.ws.shared.dto.UserDto;
+import com.ntagungira.app.ws.ui.model.response.ErrorMessages;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user){
+	public UserDto createUser(UserDto user) {
 
 		if (userRepository.findByEmail(user.getEmail()) != null)
 			throw new RuntimeException("User already exists");
@@ -56,7 +58,8 @@ public class UserServiceImpl implements UserService {
 		if (userEntity == null)
 			throw new UsernameNotFoundException(email);
 
-		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
+				new ArrayList<>());
 	}
 
 	@Override
@@ -80,6 +83,20 @@ public class UserServiceImpl implements UserService {
 		if (userEntity == null)
 			throw new UsernameNotFoundException(userId);
 		BeanUtils.copyProperties(userEntity, returnValue);
+		return returnValue;
+	}
+
+	@Override
+	public UserDto updateUser(String userId, UserDto user) {
+		UserDto returnValue = new UserDto();
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		if (userEntity == null)
+			throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+		userEntity.setFirstName(user.getFirstName());
+		userEntity.setLastName(user.getLastName());
+		UserEntity updateUserDetails = userRepository.save(userEntity);
+		BeanUtils.copyProperties(updateUserDetails, returnValue);
+
 		return returnValue;
 	}
 

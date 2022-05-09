@@ -17,6 +17,8 @@ import com.ntagungira.app.ws.sevice.UserService;
 import com.ntagungira.app.ws.shared.dto.UserDto;
 import com.ntagungira.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.ntagungira.app.ws.ui.model.response.ErrorMessages;
+import com.ntagungira.app.ws.ui.model.response.OperationStatusModel;
+import com.ntagungira.app.ws.ui.model.response.RequestOperationStatus;
 import com.ntagungira.app.ws.ui.model.response.UserResp;
 
 @RestController
@@ -26,7 +28,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
 	public UserResp getUser(@PathVariable String id) {
 		UserResp returnValue = new UserResp();
 		UserDto userDto = userService.getUserByUserId(id);
@@ -34,26 +37,38 @@ public class UserController {
 		return returnValue;
 	}
 
-	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, produces = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
-		if (userDetails.getEmail().isEmpty())
-			throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+//		if (userDetails.getEmail().isEmpty())
+//			throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		BeanUtils.copyProperties(userDetails, userDto);
 		UserDto createdUser = userService.createUser(userDto);
 		BeanUtils.copyProperties(createdUser, returnVal);
 		return returnVal;
 	}
 
-	@PutMapping
-	public String updateUser() {
-		return "updateUser was called";
+	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, produces = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserResp updateUser(@PathVariable String id,
+			@RequestBody UserDetailsRequestModel userDetails) {
+		UserResp returnVal = new UserResp();
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userDetails, userDto);
+		UserDto updateUser = userService.updateUser(id, userDto);
+		BeanUtils.copyProperties(updateUser, returnVal);
+		return returnVal;
 	}
 
-	@DeleteMapping
-	public String deleteUser() {
-		return "deleteUser was called";
+	@DeleteMapping(path = "{id}", produces = {
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public OperationStatusModel deleteUser(@PathVariable String id) {
+		OperationStatusModel returnVal = new OperationStatusModel();
+		returnVal.setOperationResult(RequestOperationStatus.SUCCESS.name());
+		return returnVal;
 	}
 }
