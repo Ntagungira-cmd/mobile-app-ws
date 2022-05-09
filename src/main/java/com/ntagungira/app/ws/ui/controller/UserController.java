@@ -18,6 +18,7 @@ import com.ntagungira.app.ws.shared.dto.UserDto;
 import com.ntagungira.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.ntagungira.app.ws.ui.model.response.ErrorMessages;
 import com.ntagungira.app.ws.ui.model.response.OperationStatusModel;
+import com.ntagungira.app.ws.ui.model.response.RequestOperationName;
 import com.ntagungira.app.ws.ui.model.response.RequestOperationStatus;
 import com.ntagungira.app.ws.ui.model.response.UserResp;
 
@@ -68,6 +69,8 @@ public class UserController {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public OperationStatusModel deleteUser(@PathVariable String id) {
 		OperationStatusModel returnVal = new OperationStatusModel();
+		returnVal.setOperationName(RequestOperationName.DELETE.name());
+		userService.deleteUser(id);
 		returnVal.setOperationResult(RequestOperationStatus.SUCCESS.name());
 		return returnVal;
 	}
