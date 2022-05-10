@@ -1,9 +1,13 @@
 package com.ntagungira.app.ws.sevice.implementation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -81,7 +85,7 @@ public class UserServiceImpl implements UserService {
 		UserDto returnValue = new UserDto();
 		UserEntity userEntity = userRepository.findByUserId(userId);
 		if (userEntity == null)
-			throw new UsernameNotFoundException("User with ID: "+userId+" does not exist");
+			throw new UsernameNotFoundException("User with ID: " + userId + " does not exist");
 		BeanUtils.copyProperties(userEntity, returnValue);
 		return returnValue;
 	}
@@ -106,6 +110,25 @@ public class UserServiceImpl implements UserService {
 		if (userEntity == null)
 			throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 		userRepository.delete(userEntity);
+	}
+
+	@Override
+	public List<UserDto> getUsers(int page, int limit) {
+		List<UserDto> returnValue = new ArrayList<>();
+		if (page > 0)
+			page -= 1;
+
+		Pageable pagableReq = PageRequest.of(page, limit);
+		Page<UserEntity> usersPage = userRepository.findAll(pagableReq);
+		List<UserEntity> users = usersPage.getContent();
+
+		for (UserEntity user : users) {
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(user, userDto);
+			returnValue.add(userDto);
+		}
+
+		return returnValue;
 	}
 
 }

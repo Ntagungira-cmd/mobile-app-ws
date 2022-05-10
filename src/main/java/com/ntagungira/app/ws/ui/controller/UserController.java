@@ -1,5 +1,8 @@
 package com.ntagungira.app.ws.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ntagungira.app.ws.Exceptions.UserServiceException;
@@ -29,7 +33,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE,
+	@GetMapping(path = "/{id}", produces = {
+			MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE })
 	public UserResp getUser(@PathVariable String id) {
 		UserResp returnValue = new UserResp();
@@ -38,9 +43,14 @@ public class UserController {
 		return returnValue;
 	}
 
-	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE }, produces = {
-					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(consumes = {
+
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE },
+
+			produces = {
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
@@ -52,9 +62,13 @@ public class UserController {
 		return returnVal;
 	}
 
-	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE }, produces = {
-					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@PutMapping(path = "/{id}", consumes = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE },
+
+			produces = {
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
 	public UserResp updateUser(@PathVariable String id,
 			@RequestBody UserDetailsRequestModel userDetails) {
 		UserResp returnVal = new UserResp();
@@ -66,12 +80,30 @@ public class UserController {
 	}
 
 	@DeleteMapping(path = "{id}", produces = {
-			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
 	public OperationStatusModel deleteUser(@PathVariable String id) {
 		OperationStatusModel returnVal = new OperationStatusModel();
 		returnVal.setOperationName(RequestOperationName.DELETE.name());
 		userService.deleteUser(id);
 		returnVal.setOperationResult(RequestOperationStatus.SUCCESS.name());
 		return returnVal;
+	}
+
+	@GetMapping(produces = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public List<UserResp> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "25") int limit) {
+
+		List<UserResp> returnValue = new ArrayList<>();
+		List<UserDto> users = userService.getUsers(page, limit);
+
+		for (UserDto userDto : users) {
+			UserResp user = new UserResp();
+			BeanUtils.copyProperties(userDto, user);
+			returnValue.add(user);
+		}
+		return returnValue;
 	}
 }
