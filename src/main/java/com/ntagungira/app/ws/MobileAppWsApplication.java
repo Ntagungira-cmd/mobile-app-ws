@@ -10,13 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ntagungira.app.ws.security.AppProperties;
 
 @SpringBootApplication
-public class MobileAppWsApplication extends SpringBootServletInitializer{
+public class MobileAppWsApplication{
 
 	
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(MobileAppWsApplication.class);
-	}
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(MobileAppWsApplication.class);
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MobileAppWsApplication.class, args);
