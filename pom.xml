@@ -78,12 +78,12 @@
           <schemaVersion>v2</schemaVersion>  
           <subscriptionId>226b42ed-5682-495e-9000-46b22078e16f</subscriptionId>  
           <resourceGroup>mobile-app-ws</resourceGroup>  
-          <appName>mobile-app-ws-1652382852772</appName>  
+          <appName>mobile-app-ws</appName>  
           <pricingTier>P1v2</pricingTier>  
           <region>southafricanorth</region>  
           <runtime> 
             <os>Linux</os>  
-            <javaVersion>Java 11</javaVersion>  
+            <javaVersion>Java 17</javaVersion>  
             <webContainer>Java SE</webContainer> 
           </runtime>  
           <deployment> 
