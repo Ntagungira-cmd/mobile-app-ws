@@ -3,6 +3,8 @@ package com.ntagungira.app.ws.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,10 +51,14 @@ public class UserController {
 					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
 		UserResp returnVal = new UserResp();
-		UserDto userDto = new UserDto();
+		//UserDto userDto = new UserDto();
 //		if (userDetails.getEmail().isEmpty())
 //			throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-		BeanUtils.copyProperties(userDetails, userDto);
+		//BeanUtils.copyProperties(userDetails, userDto);
+
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDto = modelMapper.map(userDetails, UserDto.class);
+
 		UserDto createdUser = userService.createUser(userDto);
 		BeanUtils.copyProperties(createdUser, returnVal);
 		return returnVal;
