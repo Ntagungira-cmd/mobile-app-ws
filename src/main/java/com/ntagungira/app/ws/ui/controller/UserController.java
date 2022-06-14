@@ -34,8 +34,7 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping(path = "/{id}", produces = {
-			MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserResp getUser(@PathVariable String id) {
 		UserResp returnValue = new UserResp();
 		UserDto userDto = userService.getUserByUserId(id);
@@ -43,14 +42,11 @@ public class UserController {
 		return returnValue;
 	}
 
-	@PostMapping(consumes = {
-
-			MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE },
-
+	@PostMapping(
+			consumes = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
 			produces = {
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_VALUE })
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserResp createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
@@ -62,15 +58,12 @@ public class UserController {
 		return returnVal;
 	}
 
-	@PutMapping(path = "/{id}", consumes = {
-			MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE },
-
+	@PutMapping(path = "/{id}",
+			consumes = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
 			produces = {
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_VALUE })
-	public UserResp updateUser(@PathVariable String id,
-			@RequestBody UserDetailsRequestModel userDetails) {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserResp updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
 		UserResp returnVal = new UserResp();
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userDetails, userDto);
@@ -80,8 +73,7 @@ public class UserController {
 	}
 
 	@DeleteMapping(path = "{id}", produces = {
-			MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public OperationStatusModel deleteUser(@PathVariable String id) {
 		OperationStatusModel returnVal = new OperationStatusModel();
 		returnVal.setOperationName(RequestOperationName.DELETE.name());
@@ -90,9 +82,9 @@ public class UserController {
 		return returnVal;
 	}
 
+	//Get all users
 	@GetMapping(produces = {
-			MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public List<UserResp> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "25") int limit) {
 

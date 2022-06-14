@@ -1,6 +1,7 @@
 package com.ntagungira.app.ws.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
 //import java.util.List;
 
 public class UserDto implements Serializable {
@@ -15,7 +16,7 @@ public class UserDto implements Serializable {
 	private String emailVerificationToken;
 	private Boolean emailVerificationStatus = false;
 
-	// private List<AddressDTO> addresses;
+	private List<AddressDTO> addresses;
 	public String getUserId() {
 		return userId;
 	}
