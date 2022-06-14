@@ -10,30 +10,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ntagungira.app.ws.security.AppProperties;
 
 @SpringBootApplication
-public class MobileAppWsApplication{
+public class MobileAppWsApplication {
 
-	
+
 //	@Override
 //	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 //		return builder.sources(MobileAppWsApplication.class);
 //	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(MobileAppWsApplication.class, args);
-	}
-	
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public SpringApplicationContext springApplicationContext() {
-		return new SpringApplicationContext();
-	}
-	
-	@Bean(name="AppProperties")
-	public AppProperties getAppProperties() {
-		return new AppProperties();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MobileAppWsApplication.class, args);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SpringApplicationContext springApplicationContext() {
+        return new SpringApplicationContext();
+    }
+
+    @Bean(name = "AppProperties")
+    public AppProperties getAppProperties() {
+        return new AppProperties();
+    }
 }

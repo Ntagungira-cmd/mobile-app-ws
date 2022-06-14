@@ -6,6 +6,7 @@ import com.ntagungira.app.ws.io.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-	UserEntity findByEmail(String email);
-	UserEntity findByUserId(String userId);
+    UserEntity findByEmail(String email);
+
+    UserEntity findByUserId(String userId);
 }
