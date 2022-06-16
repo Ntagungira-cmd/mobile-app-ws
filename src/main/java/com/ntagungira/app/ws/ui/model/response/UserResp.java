@@ -1,10 +1,22 @@
 package com.ntagungira.app.ws.ui.model.response;
 
+import java.util.List;
+
 public class UserResp {
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
+
+    public List<AddressResp> addresses;
+
+    public List<AddressResp> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressResp> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getUserId() {
         return userId;
