@@ -26,48 +26,48 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	private final AuthenticationManager authenticationManager;
-	public String contentType;
+    private final AuthenticationManager authenticationManager;
+    public String contentType;
 
-	public AuthenticationFilter(AuthenticationManager authenticationManager) {
-		this.authenticationManager = authenticationManager;
-	}
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-			throws AuthenticationException {
-		try {
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
+            throws AuthenticationException {
+        try {
 
-			contentType = req.getHeader("Accept");
+            contentType = req.getHeader("Accept");
 
-			UserLoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(),
-					UserLoginRequestModel.class);
+            UserLoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(),
+                    UserLoginRequestModel.class);
 
-			return authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
+            return authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
 
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-			Authentication auth) throws IOException, ServletException {
+    @Override
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
 
-		String userName = ((User) auth.getPrincipal()).getUsername();
+        String userName = ((User) auth.getPrincipal()).getUsername();
 
-		String token = Jwts.builder().setSubject(userName)
-				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
-		
-		
-		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-		UserDto userDto = userService.getUser(userName);
+        String token = Jwts.builder().setSubject(userName)
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
 
-		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-		res.addHeader("UserID", userDto.getUserId());
 
-	}
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
+
+        res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        res.addHeader("UserID", userDto.getUserId());
+
+    }
 
 }

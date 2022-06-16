@@ -1,40 +1,52 @@
 package com.ntagungira.app.ws.ui.model.response;
 
+import java.util.List;
+
 public class UserResp {
-	private String userId;
-	private String firstName;
-	private String lastName;
-	private String email;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String email;
 
-	public String getUserId() {
-		return userId;
-	}
+    public List<AddressResp> addresses;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public List<AddressResp> getAddresses() {
+        return addresses;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setAddresses(List<AddressResp> addresses) {
+        this.addresses = addresses;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

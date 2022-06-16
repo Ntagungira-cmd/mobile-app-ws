@@ -14,17 +14,17 @@ import com.ntagungira.app.ws.ui.model.response.ErrorMessage;
 
 @ControllerAdvice
 public class AppExceptionHandler {
-	@ExceptionHandler(value= {UserServiceException.class})
-	public ResponseEntity<Object> handleUserServiceException(UserServiceException ex, WebRequest req) {
-		
-        ErrorMessage errorMessage=new ErrorMessage(new Date(),ex.getMessage());
-		return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	@ExceptionHandler(value= {Exception.class})
-	public ResponseEntity<Object> handleOtherExceptions(Exception ex, WebRequest req) {
-		
-        ErrorMessage errorMessage=new ErrorMessage(new Date(),ex.getMessage());
-		return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+    @ExceptionHandler(value = {UserServiceException.class})
+    public ResponseEntity<Object> handleUserServiceException(UserServiceException ex, WebRequest req) {
+
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), ex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<Object> handleOtherExceptions(Exception ex, WebRequest req) {
+
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), ex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
